@@ -8,6 +8,7 @@ tokenizer = T5Tokenizer.from_pretrained("./robot_instruction_model")
 model = T5ForConditionalGeneration.from_pretrained("./robot_instruction_model")
 
 
+@app.route("/get-command", methods=["POST"])
 def get_command():
     data = request.json
     cmd_request = data.get("request")
@@ -25,12 +26,15 @@ def generate_command(request):
     return generated_commands
     
 
-request = ""
-while True:
-    print("Tell me what can I help you ? <Enter Q/q to quit")
-    request = input()
-    if request == "Q" or request == "q":
-        break
-    print("Request:", request)
-    print("Generated Command:", generate_command(request))
+# request = ""
+# while True:
+#     print("Tell me what can I help you ? <Enter Q/q to quit")
+#     request = input()
+#     if request == "Q" or request == "q":
+#         break
+#     print("Request:", request)
+#     print("Generated Command:", generate_command(request))
 
+
+if __name__ == "__main__":
+    app.run(host="localhost", port=5000)
