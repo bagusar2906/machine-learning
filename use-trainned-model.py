@@ -1,5 +1,5 @@
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -7,16 +7,24 @@ app = Flask(__name__)
 tokenizer = T5Tokenizer.from_pretrained("./robot_instruction_model")
 model = T5ForConditionalGeneration.from_pretrained("./robot_instruction_model")
 
+@app.route('/')
+def index():
+    return render_template('index.html')  # Ensure 'index.html' is in a 'templates' folder
 
+@app.route("/welcome", methods=["GET"])
+def welcome_command():    
+    result = "How can I assist you today ?"
+    return jsonify( {"response": result})
+
+@app.route("/request", methods=["POST"])
 def get_command():
-    data = request.json
-    cmd_request = data.get("request")
+    cmd_request = request.json.get('message')    
     print("request: ", cmd_request)
-    result = generate_command(cmd_request)
+    result = generate_response(cmd_request)
     print("Generated command: ", result)
-    return generate_command(result)
+    return jsonify( {"response": result})
 
-def generate_command(request):
+def generate_response(request):
     # Tokenize and generate
     input_ids = tokenizer.encode(request, return_tensors="pt")
     #outputs = model.generate(input_ids, max_length=150)
@@ -25,12 +33,6 @@ def generate_command(request):
     return generated_commands
     
 
-request = ""
-while True:
-    print("Tell me what can I help you ? <Enter Q/q to quit")
-    request = input()
-    if request == "Q" or request == "q":
-        break
-    print("Request:", request)
-    print("Generated Command:", generate_command(request))
 
+if __name__ == "__main__":
+    app.run(host="localhost", port=5000)

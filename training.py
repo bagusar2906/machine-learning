@@ -1,3 +1,8 @@
+""" 
+This scrip will generate a new model based on the trainning_dataset.csv and save it in the models folder.
+
+ """
+
 import pandas as pd
 from datasets import Dataset
 from transformers import T5Tokenizer, T5ForConditionalGeneration, AutoModelForSeq2SeqLM, AutoTokenizer

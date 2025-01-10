@@ -1,3 +1,4 @@
 input,output
 "concentrate 40 ml of sample from 0.1 mg/ml till 2 mg/ml using 30 kda chip","concentrate:SV:40,SC:0.1,FC:2,mwco:30"
 "exchange 10 ml buffer with 30 ml sample. start exchange at 27 ml with 2 ml step continue with concentrate till final volume 2 ml with 300 kda chip","bufferX:SV:30,BV:10,BE:2,SE:27,FV:2,mwco:300"
+"exchange 10 ml buffer @deck1A1 with 20 ml sample @deck1A2. start exchange at 18 ml with 1 ml step. Concentrate till final volume 2 ml with 300 kda chip","bufferX:SV:20,BV:10,BE:1,SE:18,FV:2,mwco:300,sloc:1A2,bloc:1A1"

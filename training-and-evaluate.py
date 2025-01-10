@@ -1,3 +1,7 @@
+""" 
+This scrip will generate a new model and test the model against evaluation_dataset.csv and save it in the models folder.
+
+ """
 from transformers import T5Tokenizer, T5ForConditionalGeneration, Trainer, TrainingArguments
 from torch.utils.data import Dataset
 import pandas as pd
