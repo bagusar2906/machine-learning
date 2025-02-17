@@ -17,7 +17,8 @@ export default function CommandForm() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,20 +63,22 @@ export default function CommandForm() {
         console.log("Data submitted successfully!");
         // ✅ Clear form after successful submission
         setFormData({
-            command: "",
-            method: "Concentrate",
-            currentVolume: "",
-            currentBufferVolume: "",
-            initialConcentrate: "",
-            finalVolume: "",
-            finalConcentrate: "",
-            startExchange: "",
-            stepSize: "",
-            exchangeVolume: "",
-            mwco: ""
+          command: "",
+          method: "Concentrate",
+          currentVolume: "",
+          currentBufferVolume: "",
+          initialConcentrate: "0.1",
+          finalVolume: "",
+          finalConcentrate: "",
+          startExchange: "",
+          stepSize: "",
+          exchangeVolume: "",
+          mwco: ""
         });
       } else {
-          console.error("Submission failed.");
+        setError("An unexpected error occurred. Please try again.");
+        setShowToast(true);
+        console.error("Submission failed.");
       }
       const data = response.json();
       console.log("API Response:", data);
@@ -87,7 +90,7 @@ export default function CommandForm() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+    <div className="container d-flex justify-content-center align-items-center" style={{ height: "auto", paddingTop: "10px", paddingBottom: "10px" }}>
       <div className="card p-4 shadow-lg rounded-4" style={{ maxWidth: "600px", width: "100%" }}>
         <h5 className="text-center mb-3">
           <i className="bi bi-robot text-primary"></i>Train Robot Command
@@ -159,7 +162,7 @@ export default function CommandForm() {
               />
             </div>
           </div>
-          
+
           {/* Concentrate Fields */}
           <div className="row">
             <div className="col-md-6 mb-3">
@@ -248,7 +251,7 @@ export default function CommandForm() {
           <button
             type="submit"
             className="btn btn-primary w-100 rounded-pill mt-3"
-            disabled={isLoading} 
+            disabled={isLoading}
           >
             {isLoading ? (
               <>
@@ -262,6 +265,19 @@ export default function CommandForm() {
           </button>
         </form>
       </div>
+      {/* Error Toast using Bootstrap */}
+      {showToast && (
+        <div className="position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1050 }}>
+          <div className="toast show align-items-center text-white bg-danger border-0" role="alert">
+            <div className="d-flex">
+              <div className="toast-body">
+                {error}
+              </div>
+              <button type="button" className="btn-close btn-close-white me-2 m-auto" onClick={() => setShowToast(false)}></button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

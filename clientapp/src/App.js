@@ -16,12 +16,12 @@ const App = () => {
                     <Nav vertical>
                         <NavItem>
                             <NavLink href="#" className={`nav-link ${activeTab === "command" ? "text-warning" : "text-white"}`} onClick={() => setActiveTab("command")}>
-                                📜 Command Form
+                                📜 Train Robot
                             </NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="#" className={`nav-link ${activeTab === "another" ? "text-warning" : "text-white"}`} onClick={() => setActiveTab("another")}>
-                                📝 Another Form
+                                📝 Inference
                             </NavLink>
                         </NavItem>
                     </Nav>
