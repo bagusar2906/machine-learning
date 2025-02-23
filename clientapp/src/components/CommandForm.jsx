@@ -6,19 +6,20 @@ export default function CommandForm() {
   const [formData, setFormData] = useState({
     command: "",
     method: "Concentrate",
-    currentVolume: "",
-    mwc: "5",
-    initialConcentrate: "",
-    finalVolume: "",
-    startExchange: "",
+    currentVolume: "0.00",
+    mwco: "5",
+    initialConcentrate: "0.1",
+    finalVolume: "0.00",
+   /*  startExchange: "0.00",
     stepSize: "1",
-    exchangeVolume: "",
-    currentBufferVolume: "",
+    exchangeVolume: "0.00",
+    currentBufferVolume: "0.00", */
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,10 +51,23 @@ export default function CommandForm() {
 
     if (!validateForm()) return;
 
+    formData.mwco = parseInt(formData.mwco);
+    formData.currentVolume = parseFloat(formData.currentVolume);
+    formData.finalVolume = parseFloat(formData.finalVolume);
+    formData.initialConcentrate = parseFloat(formData.initialConcentrate);
+    formData.finalConcentrate = parseFloat(formData.finalConcentrate);
+    formData.startExchange = parseFloat(formData.startExchange);
+    formData.stepSize = parseFloat(formData.stepSize);
+    formData.exchangeVolume = parseFloat(formData.exchangeVolume);
+    formData.currentBufferVolume = parseFloat(formData.currentBufferVolume);
+
+   
+    
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/train", {
+      console.log("Submitting data:", JSON.stringify(formData));
+      const response = await fetch("/api/train", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -65,15 +79,15 @@ export default function CommandForm() {
         setFormData({
           command: "",
           method: "Concentrate",
-          currentVolume: "",
-          currentBufferVolume: "",
-          initialConcentrate: "0.1",
-          finalVolume: "",
-          finalConcentrate: "",
-          startExchange: "",
-          stepSize: "",
-          exchangeVolume: "",
-          mwco: ""
+          currentVolume: 0.0,
+          currentBufferVolume: 0.0,
+          initialConcentrate: 0.1,
+          finalVolume: 0,
+          finalConcentrate: 0,
+          startExchange: 0,
+          stepSize: 1,
+          exchangeVolume: 0,
+          mwco: 0
         });
       } else {
         setError("An unexpected error occurred. Please try again.");
